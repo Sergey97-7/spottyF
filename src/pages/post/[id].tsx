@@ -6,18 +6,11 @@ import { usePostQuery } from "./../../generated/graphql";
 import Layout from "./../../components/Layout";
 import { Heading } from "@chakra-ui/layout";
 import { Box } from "@chakra-ui/react";
+import { useGetPostFromUrl } from "../../utils/useGetPostFromUrl";
+import { EditDeletePostButtons } from "./../../components/EditDeletePostButtons";
 
 const Post: React.FC<{}> = ({}) => {
-  const router = useRouter();
-  const intId =
-    typeof router.query.id === "string" ? parseInt(router.query.id) : -1;
-  const [{ data, fetching, error }] = usePostQuery({
-    pause: intId === -1,
-    variables: {
-      id: intId,
-    },
-  });
-  router.query.id;
+  const [{ data, fetching, error }] = useGetPostFromUrl();
   if (fetching) {
     return (
       <Layout>
@@ -38,7 +31,11 @@ const Post: React.FC<{}> = ({}) => {
   return (
     <Layout>
       <Heading mb={4}>{data.post.title}</Heading>
-      {data.post.text}
+      <Box mb={4}> {data.post.text}</Box>
+      <EditDeletePostButtons
+        id={data.post.id}
+        creatorId={data.post.creator.id}
+      />
     </Layout>
   );
 };

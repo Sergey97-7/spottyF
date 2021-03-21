@@ -1,7 +1,11 @@
 import { NavBar } from "../components/NavBar";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "./../utils/createUrqlClient";
-import { useDeletePostMutation, usePostsQuery } from "./../generated/graphql";
+import {
+  useDeletePostMutation,
+  useMeQuery,
+  usePostsQuery,
+} from "./../generated/graphql";
 import Layout from "./../components/Layout";
 import NextLink from "next/link";
 import {
@@ -14,19 +18,31 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { ChevronDownIcon, ChevronUpIcon, DeleteIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DeleteIcon,
+  EditIcon,
+} from "@chakra-ui/icons";
 import { useState } from "react";
 import { UpdootSection } from "../components/UpdootSection";
+import { EditDeletePostButtons } from "./../components/EditDeletePostButtons";
 
 const Index = () => {
   const [variables, setVariables] = useState({ limit: 2, cursor: null });
-  const [{ data, fetching }] = usePostsQuery({
+  const [{ data, error, fetching }] = usePostsQuery({
     variables,
   });
   ``;
   const [, deletePost] = useDeletePostMutation();
+  const [{ data: meData }] = useMeQuery();
   if (!fetching && !data) {
-    return <div>you got query failed</div>;
+    return (
+      <div>
+        <div>you got query failed</div>
+        <div>{error?.message}</div>
+      </div>
+    );
   }
 
   return (
@@ -50,14 +66,14 @@ const Index = () => {
                     <Text flex={1} mt={4}>
                       {p.textSnippet}
                     </Text>
-                    <IconButton
-                      icon={<DeleteIcon />}
-                      colorScheme="red"
-                      aria-label="Delete Post"
-                      onClick={() => {
-                        deletePost({ id: p.id });
-                      }}
-                    ></IconButton>
+                    {meData?.me?.id === p.id ? (
+                      <Box ml="auto">
+                        <EditDeletePostButtons
+                          id={p.id}
+                          creatorId={p.creator.id}
+                        />
+                      </Box>
+                    ) : null}
                   </Flex>
                 </Box>
               </Flex>
