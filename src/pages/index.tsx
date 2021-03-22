@@ -1,11 +1,6 @@
-import { NavBar } from "../components/NavBar";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "./../utils/createUrqlClient";
-import {
-  useDeletePostMutation,
-  useMeQuery,
-  usePostsQuery,
-} from "./../generated/graphql";
+import { useMeQuery, usePostsQuery } from "./../generated/graphql";
 import Layout from "./../components/Layout";
 import NextLink from "next/link";
 import {
@@ -13,17 +8,10 @@ import {
   Button,
   Flex,
   Heading,
-  IconButton,
   Link,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  DeleteIcon,
-  EditIcon,
-} from "@chakra-ui/icons";
 import { useState } from "react";
 import { UpdootSection } from "../components/UpdootSection";
 import { EditDeletePostButtons } from "./../components/EditDeletePostButtons";
@@ -33,8 +21,6 @@ const Index = () => {
   const [{ data, error, fetching }] = usePostsQuery({
     variables,
   });
-  ``;
-  const [, deletePost] = useDeletePostMutation();
   const [{ data: meData }] = useMeQuery();
   if (!fetching && !data) {
     return (

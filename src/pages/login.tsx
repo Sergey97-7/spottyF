@@ -1,27 +1,16 @@
 import React from "react";
 import { Form, Formik } from "formik";
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Input,
-  Box,
-  Button,
-  Link,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Button, Link, Flex } from "@chakra-ui/react";
 import Wrapper from "./../components/Wrapper";
 import InputField from "./../components/InputField";
-import { useMutation } from "urql";
 import { useLoginMutation } from "./../generated/graphql";
 import { toErrorMap } from "./../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "./../utils/createUrqlClient";
 import NextLink from "next/link";
-interface loginProps {}
 
-const Login: React.FC<loginProps> = ({}) => {
+const Login: React.FC = ({}) => {
   const [, login] = useLoginMutation();
   const router = useRouter();
   return (
@@ -33,15 +22,15 @@ const Login: React.FC<loginProps> = ({}) => {
           if (response.data?.login.errors) {
             setErrors(toErrorMap(response.data.login.errors));
           } else if (response.data?.login.user) {
-            if( typeof router.query.next === 'string') {
-              router.push(router.query.next)
+            if (typeof router.query.next === "string") {
+              router.push(router.query.next);
             } else {
               router.push("/");
             }
           }
         }}
       >
-        {({ isSubmitting }, handleChange) => (
+        {({ isSubmitting }) => (
           <Form>
             <InputField
               name="usernameOrEmail"

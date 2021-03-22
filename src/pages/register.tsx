@@ -8,9 +8,8 @@ import { toErrorMap } from "./../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrqlClient";
-interface registerProps {}
 
-const Register: React.FC<registerProps> = ({}) => {
+const Register: React.FC = () => {
   const [, register] = useRegisterMutation();
   const router = useRouter();
   return (
@@ -18,7 +17,6 @@ const Register: React.FC<registerProps> = ({}) => {
       <Formik
         initialValues={{ username: "", password: "", email: "" }}
         onSubmit={async (values, { setErrors }) => {
-          console.log("values", values);
           const response = await register({ options: values });
           if (response.data?.register.errors) {
             setErrors(toErrorMap(response.data.register.errors));
@@ -27,7 +25,7 @@ const Register: React.FC<registerProps> = ({}) => {
           }
         }}
       >
-        {({ isSubmitting }, handleChange) => (
+        {({ isSubmitting }) => (
           <Form>
             <InputField
               name="username"

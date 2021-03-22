@@ -7,7 +7,7 @@ import Wrapper from "../../components/Wrapper";
 import { toErrorMap } from "../../utils/toErrorMap";
 import { useChangePasswordMutation } from "./../../generated/graphql";
 import { useRouter } from "next/router";
-import { withUrqlClient, WithUrqlProps } from "next-urql";
+import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "./../../utils/createUrqlClient";
 import NextLink from "next/link";
 

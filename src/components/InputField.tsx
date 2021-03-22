@@ -16,7 +16,6 @@ type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   textarea?: boolean;
 };
-// interface inputFieldProps {}
 const InputField: React.FC<InputFieldProps> = ({
   label,
   textarea,
@@ -24,8 +23,11 @@ const InputField: React.FC<InputFieldProps> = ({
   ...props
 }) => {
   const [field, { error }] = useField(props);
-  let InputOrTextarea:  ComponentWithAs<"textarea" | "input", TextareaProps | InputProps>  = Input;
-  if(textarea) {
+  let InputOrTextarea: ComponentWithAs<
+    "textarea" | "input",
+    TextareaProps | InputProps
+  > = Input;
+  if (textarea) {
     InputOrTextarea = Textarea;
   }
   return (

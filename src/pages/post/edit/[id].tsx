@@ -1,23 +1,16 @@
 import React from "react";
 import { withUrqlClient } from "next-urql";
-// import { createUrqlClient } from "../../utils/createUrqlClient";
-// import { useRouter } from "next/router";
-// import { usePostQuery } from "./../../generated/graphql";
-// import Layout from "./../../components/Layout";
-import { Heading } from "@chakra-ui/layout";
 import { Box, Button } from "@chakra-ui/react";
 import { createUrqlClient } from "../../../utils/createUrqlClient";
 import { Formik, Form } from "formik";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import InputField from "../../../components/InputField";
 import Layout from "../../../components/Layout";
-import createPost from "../../create-post";
-import { usePostQuery, usePostsQuery } from "../../../generated/graphql";
-import { useGetPostFromUrl } from "../../../utils/useGetPostFromUrl";
+import { usePostQuery } from "../../../generated/graphql";
 import { useGetIntId } from "../../../utils/useGetIntId";
 import { useUpdatePostMutation } from "./../../../generated/graphql";
 
-const EditPost: React.FC<{}> = ({}) => {
+const EditPost: React.FC = () => {
   const router = useRouter();
   const intId = useGetIntId();
   const [{ data, fetching, error }] = usePostQuery({
@@ -44,12 +37,6 @@ const EditPost: React.FC<{}> = ({}) => {
       </Layout>
     );
   }
-  //   return (
-  //     <Layout>
-  //       <Heading mb={4}>{data.post.title}</Heading>
-  //       {data.post.text}
-  //     </Layout>
-  //   );
   return (
     <Layout variant="small">
       <Formik
@@ -57,11 +44,6 @@ const EditPost: React.FC<{}> = ({}) => {
         onSubmit={async (values, { setErrors }) => {
           await updatePost({ id: intId, ...values });
           router.back();
-          //   console.log("values", values);
-          //   const { error } = await createPost({ input: values });
-          //   if (!error) {
-          //     router.push("/");
-          //   }
         }}
       >
         {({ isSubmitting }, handleChange) => (

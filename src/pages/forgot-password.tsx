@@ -7,7 +7,7 @@ import InputField from "../components/InputField";
 import Wrapper from "../components/Wrapper";
 import { useForgotPasswordMutation } from "./../generated/graphql";
 
-const ForgotPassword: React.FC<{}> = ({}) => {
+const ForgotPassword: React.FC = () => {
   const [complete, setComplete] = useState(false);
   const [, forgotPassword] = useForgotPasswordMutation();
   return (

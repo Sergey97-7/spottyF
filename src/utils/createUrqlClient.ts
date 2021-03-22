@@ -9,7 +9,7 @@ import {
   VoteMutationVariables,
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
-import { filter, pipe, tap } from "wonka";
+import { pipe, tap } from "wonka";
 import { Exchange } from "urql";
 import Router from "next/router";
 import { stringifyVariables } from "@urql/core";
@@ -37,10 +37,10 @@ function invalidateAllPosts(cache: Cache) {
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = "";
   if (isServer()) {
-    cookie = ctx.req.headers.cookie;
+    cookie = ctx?.req?.headers?.cookie;
   }
   return {
-    url: "http://localhost:3000/graphql",
+    url: process.env.NEXT_PUBLIC_API_URL,
     fetchOptions: {
       credentials: "include" as const,
       headers: cookie
